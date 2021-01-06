@@ -1,18 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductsController } from './products.controller';
-import { ProductsModule } from './products.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Product, ProductSchema } from './schemas/product.schema';
+import { ProductsService } from './products.service';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Product, ProductSchema } from '../schemas/product.schema';
 
-describe('ProductsController', () => {
-  let controller: ProductsController;
+describe('ProductsService', () => {
+  let service: ProductsService;
   let mongo_in_mem: MongoMemoryServer;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ProductsModule,
         MongooseModule.forFeature([
           { name: Product.name, schema: ProductSchema },
         ]),
@@ -25,15 +23,14 @@ describe('ProductsController', () => {
           },
         }),
       ],
+      providers: [ProductsService],
     }).compile();
 
-    controller = module.get<ProductsController>(ProductsController);
+    service = module.get<ProductsService>(ProductsService);
   });
 
-  it('should update data', async () => {
-    await controller.addProduct({ desc: 'desc1', price: 22, title: 'test' });
-    await controller.addProduct({ desc: 'desc2', price: 63, title: 'test2' });
-    expect(await controller.getAllProducts()).toHaveLength(2);
+  it('should be defined', () => {
+    expect(service).toBeDefined();
   });
 
   afterAll(async () => {

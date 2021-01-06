@@ -1,14 +1,31 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ApiAuthorizationGuard } from './shared/guards/authorization.guard';
+import { RolesGuard } from './shared/guards/roles.guard';
+import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
+import { VersionValidatorInterceptor } from './shared/interceptors/versionValidator.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get<ConfigService>(ConfigService);
+  const reflector = app.get<Reflector>(Reflector);
 
   // Global prefix
   app.setGlobalPrefix('api');
+
+  // Setting Guards
+  app.useGlobalGuards(
+    new ApiAuthorizationGuard(configService),
+    new RolesGuard(reflector),
+  );
+
+  // Setting Interceptors
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    // new VersionValidatorInterceptor(reflector),
+  );
 
   // Swagger Documentation Init
   const options = new DocumentBuilder()
@@ -16,6 +33,7 @@ async function bootstrap() {
     .setDescription('The Gigsy API documentation')
     .setVersion('1.0')
     .addApiKey({ type: 'apiKey', name: 'x-key', in: 'header' }, 'x-key')
+    .addBearerAuth({ type: 'http', scheme: 'bearer' }, 'authenticate')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
