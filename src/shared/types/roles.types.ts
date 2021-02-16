@@ -1,8 +1,8 @@
 export enum RoleTypes {
-  ADMIN = 'admin',
-  CREATOR = 'creator',
-  SIMPLETON = 'simpleton',
-  AFFILIATE = 'affiliate',
+  ADMIN = 'ADMIN@ROLE',
+  CREATOR = 'CREATOR@ROLE',
+  SIMPLETON = 'SIMPLETON@ROLE',
+  AFFILIATE = 'AFFILIATE@ROLE',
 }
 
 export interface Role {
