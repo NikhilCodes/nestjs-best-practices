@@ -17,7 +17,7 @@ export class ProductsRepository {
     return this.productModel.find().exec();
   }
 
-  insert({ title, description, price }: ProductDto): Promise<Product> {
+  insertOne({ title, description, price }: ProductDto): Promise<Product> {
     const createdProduct = new this.productModel({
       title,
       description,
