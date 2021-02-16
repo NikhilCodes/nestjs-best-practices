@@ -2,12 +2,12 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule } from './modules/products/products.module';
-import { CorsMiddleware } from './shared/middlewares/cors.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CronService } from './cron/cron.service';
+import { CronService } from './core/cron/cron.service';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CorsMiddleware } from './shared/middlewares/cors.middleware';
 
 @Module({
   imports: [
@@ -31,6 +31,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // Apply Global Middlewares as given below.
-    // consumer.apply(CorsMiddleware).forRoutes('*');
+    consumer.apply(CorsMiddleware).forRoutes('*');
   }
 }

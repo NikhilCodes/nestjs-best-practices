@@ -1,8 +1,8 @@
 import { Product } from '../schemas/product.schema';
 
 export interface ProductService {
-  getAllProducts: () => Promise<Product[]>;
-  insertProduct: (
+  getAll: () => Promise<Product[]>;
+  insert: (
     title: string,
     description: string,
     price: number,

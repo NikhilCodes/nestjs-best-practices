@@ -10,19 +10,27 @@ import {
 } from '@nestjs/swagger';
 import { AddRoles } from '../../shared/decorators/roles.decorator';
 import { Product } from './schemas/product.schema';
-import { Version } from '../../shared/decorators/versioning.decorator';
+import {
+  Deprecate,
+  Version,
+} from '../../shared/decorators/versioning.decorator';
+import {
+  ADMIN_ROLE,
+  CREATOR_ROLE,
+  SIMPLETON_ROLE,
+} from '../../shared/types/roles.types';
 
 @ApiTags('products')
 @ApiSecurity('x-key')
 @ApiBearerAuth('authenticate')
-// @Reflect.metadata('module:deprecate-all-before-version', 3)
+@Deprecate(1)
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  @Version([1, 2])
-  @AddRoles('user|admin')
+  @Version([1, 22])
+  @AddRoles([SIMPLETON_ROLE, ADMIN_ROLE])
   @ApiResponse({
     status: 200,
     description: 'Products GET request was a success.',
@@ -38,17 +46,23 @@ export class ProductsController {
       'Invalid API key! Pass a valid api key through x-key in headers.',
   })
   async getAllProducts(): Promise<Product[]> {
-    return await this.productsService.getAllProducts();
+    return await this.productsService.getAll();
   }
 
-  @Get()
-  // @Version(9)
+  @Get('test')
+  @Version(9)
   getTestAll() {
     return ['test', 'test1'];
   }
 
+  @Get()
+  @AddRoles([SIMPLETON_ROLE, CREATOR_ROLE])
+  getTestAll_() {
+    return ['test', 'test2'];
+  }
+
   @Post()
-  @AddRoles('admin')
+  @AddRoles([ADMIN_ROLE])
   @ApiResponse({
     status: 201,
     description: 'The Product has been successfully created.',
@@ -64,9 +78,9 @@ export class ProductsController {
       'Invalid API key! Pass a valid api key through x-key in headers.',
   })
   async addProduct(@Body() productDto: ProductDto): Promise<Product> {
-    return await this.productsService.insertProduct(
+    return await this.productsService.insert(
       productDto.title,
-      productDto.desc,
+      productDto.description,
       productDto.price,
     );
   }

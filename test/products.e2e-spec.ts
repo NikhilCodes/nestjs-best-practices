@@ -9,7 +9,7 @@ import {
   ProductSchema,
 } from '../src/modules/products/schemas/product.schema';
 import { ProductsService } from '../src/modules/products/services/products.service';
-import { stringifyIdOfDocuments } from './test.utils';
+import { ProductsRepository } from '../src/core/repository/products.repository';
 
 describe('ProductsController (e2e)', () => {
   let app: INestApplication;
@@ -31,7 +31,7 @@ describe('ProductsController (e2e)', () => {
           },
         }),
       ],
-      providers: [ProductsService],
+      providers: [ProductsService, ProductsRepository],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -40,14 +40,10 @@ describe('ProductsController (e2e)', () => {
   });
 
   it('/ (GET)', async () => {
-    const insertedObject = await productsService.insertProduct(
-      'test',
-      'desc',
-      27,
-    );
+    const insertedObject = await productsService.insert('test', 'desc', 27);
 
     return request(app.getHttpServer())
-      .get('/products')
+      .get('/products/v1')
       .expect([
         {
           _id: insertedObject._id.toString(),

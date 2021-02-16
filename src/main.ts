@@ -2,10 +2,10 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ApiAuthorizationGuard } from './shared/guards/authorization.guard';
-import { RolesGuard } from './shared/guards/roles.guard';
-import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
-import { VersionValidatorInterceptor } from './shared/interceptors/versionValidator.interceptor';
+import { ApiAuthorizationGuard } from './core/guards/authorization.guard';
+import { RolesGuard } from './core/guards/roles.guard';
+import { LoggingInterceptor } from './core/interceptors/logging.interceptor';
+import { DeprecatedGuard } from './core/guards/deprecated.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +19,7 @@ async function bootstrap() {
   app.useGlobalGuards(
     new ApiAuthorizationGuard(configService),
     new RolesGuard(reflector),
+    new DeprecatedGuard(reflector),
   );
 
   // Setting Interceptors
@@ -41,4 +42,4 @@ async function bootstrap() {
   await app.listen(configService.get('http.port'));
 }
 
-bootstrap();
+bootstrap().then();

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
+import { Role } from '../../shared/types/roles.types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -15,15 +16,21 @@ export class RolesGuard implements CanActivate {
     ctx: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = <Request>ctx.switchToHttp().getRequest();
-    const accessSpecifiers = this.reflector.get<string[]>(
-      'roles',
+    const accessSpecifiers = this.reflector.get<Role[]>(
+      'roles@guard',
       ctx.getHandler(),
     );
-    const bearerToken = request.headers['authorization']?.split(' ')[1];
-    if (!accessSpecifiers || accessSpecifiers.includes(bearerToken)) {
+    const bearerToken = request.headers['authorization']?.slice(7);
+    const userRole = bearerToken; // No Logic devised yet! So we got with identity method
+    if (
+      !accessSpecifiers ||
+      accessSpecifiers.some((value) => value.type === userRole)
+    ) {
       return true;
     } else {
-      throw new UnauthorizedException('Invalid Bearer Token!');
+      throw new UnauthorizedException(
+        "User's current role doesn't have required clearance.",
+      );
     }
   }
 }

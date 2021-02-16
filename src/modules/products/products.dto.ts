@@ -11,7 +11,7 @@ export class ProductDto {
     description: 'Description of the product',
     type: String,
   })
-  desc: string;
+  description: string;
 
   @ApiProperty({
     description: 'Price value of the product',

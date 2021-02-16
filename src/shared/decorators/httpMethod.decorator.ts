@@ -1,5 +1,6 @@
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { RequestMethod } from '@nestjs/common/enums';
+import { VERSION_METADATA_KEY } from './versioning.decorator';
 
 function prependVersionPrefixToPaths(
   paths: string | string[],
@@ -26,7 +27,7 @@ function prependVersionPrefixToPaths(
 export function Get(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
     const versions: string[] = Reflect.getMetadata(
-      'module:version',
+      VERSION_METADATA_KEY,
       target,
       propertyKey,
     );
@@ -46,7 +47,11 @@ export function Get(path: string | string[] = ''): MethodDecorator {
 
 export function Post(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
@@ -63,7 +68,11 @@ export function Post(path: string | string[] = ''): MethodDecorator {
 
 export function Delete(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
@@ -80,7 +89,11 @@ export function Delete(path: string | string[] = ''): MethodDecorator {
 
 export function Put(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
@@ -97,7 +110,11 @@ export function Put(path: string | string[] = ''): MethodDecorator {
 
 export function Patch(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
@@ -114,7 +131,11 @@ export function Patch(path: string | string[] = ''): MethodDecorator {
 
 export function Options(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
@@ -131,7 +152,11 @@ export function Options(path: string | string[] = ''): MethodDecorator {
 
 export function Head(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
@@ -148,7 +173,11 @@ export function Head(path: string | string[] = ''): MethodDecorator {
 
 export function All(path: string | string[] = ''): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const version = Reflect.getMetadata('module:version', target, propertyKey);
+    const version = Reflect.getMetadata(
+      VERSION_METADATA_KEY,
+      target,
+      propertyKey,
+    );
     Reflect.defineMetadata(
       PATH_METADATA,
       prependVersionPrefixToPaths(path, version),
