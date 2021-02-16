@@ -4,5 +4,5 @@ nest g s $1 modules  # Service
 
 # If any changes were attempted, make sure
 # module creation is done before any other
-# fragment[i.e., Controller, Service, ...] is
+# fragments[i.e., Controller, Service, ...] are
 # generated.
