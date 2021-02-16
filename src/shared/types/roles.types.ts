@@ -1,14 +1,21 @@
-type RawRoleType = 'admin' | 'creator' | 'simpleton' | 'affiliate';
-
-function createRoleSymbol(role: RawRoleType): Role {
-  return { type: role };
+export enum RoleTypes {
+  ADMIN = 'admin',
+  CREATOR = 'creator',
+  SIMPLETON = 'simpleton',
+  AFFILIATE = 'affiliate',
 }
 
 export interface Role {
-  type: RawRoleType;
+  type: RoleTypes;
+  priority?: number;
 }
 
-export const ADMIN_ROLE = createRoleSymbol('admin');
-export const CREATOR_ROLE = createRoleSymbol('creator');
-export const SIMPLETON_ROLE = createRoleSymbol('simpleton');
-export const AFFILIATE_ROLE = createRoleSymbol('affiliate');
+function createRoleSymbol(roleObject: Role | RoleTypes): Role {
+  if (typeof roleObject === 'string') return { type: roleObject };
+  return roleObject;
+}
+
+export const ADMIN_ROLE = createRoleSymbol(RoleTypes.ADMIN);
+export const CREATOR_ROLE = createRoleSymbol(RoleTypes.CREATOR);
+export const SIMPLETON_ROLE = createRoleSymbol(RoleTypes.SIMPLETON);
+export const AFFILIATE_ROLE = createRoleSymbol(RoleTypes.AFFILIATE);

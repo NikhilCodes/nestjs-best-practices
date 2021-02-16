@@ -30,8 +30,8 @@ async function bootstrap() {
 
   // Swagger Documentation Init
   const options = new DocumentBuilder()
-    .setTitle('Documentation | Gigsy API')
-    .setDescription('The Gigsy API documentation')
+    .setTitle('Documentation | Best API')
+    .setDescription('The Best API documentation')
     .setVersion('1.0')
     .addApiKey({ type: 'apiKey', name: 'x-key', in: 'header' }, 'x-key')
     .addBearerAuth({ type: 'http', scheme: 'bearer' }, 'authenticate')
