@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Get } from '../../shared/decorators/httpMethod.decorator';
-import { ProductsService } from './services/products.service';
+import { ProductsService } from './products.service';
 import { ProductDto } from './products.dto';
 import {
   ApiBearerAuth,

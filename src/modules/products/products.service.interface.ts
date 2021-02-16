@@ -1,4 +1,4 @@
-import { Product } from '../schemas/product.schema';
+import { Product } from './schemas/product.schema';
 
 export interface ProductService {
   getAll: () => Promise<Product[]>;

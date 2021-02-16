@@ -8,7 +8,7 @@ import {
   Product,
   ProductSchema,
 } from '../src/modules/products/schemas/product.schema';
-import { ProductsService } from '../src/modules/products/services/products.service';
+import { ProductsService } from '../src/modules/products/products.service';
 import { ProductsRepository } from '../src/core/repository/products.repository';
 
 describe('ProductsController (e2e)', () => {
