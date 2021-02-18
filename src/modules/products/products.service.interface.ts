@@ -1,10 +1,10 @@
-import { Product } from './schemas/product.schema';
+import ProductEntity from './entities/product.entity';
 
 export interface ProductService {
-  getAll: () => Promise<Product[]>;
+  getAll: () => Promise<ProductEntity[]>;
   insert: (
     title: string,
     description: string,
     price: number,
-  ) => Promise<Product>;
+  ) => Promise<ProductEntity>;
 }

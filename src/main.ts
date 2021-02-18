@@ -23,10 +23,7 @@ async function bootstrap() {
   );
 
   // Setting Interceptors
-  app.useGlobalInterceptors(
-    new LoggingInterceptor(),
-    // new VersionValidatorInterceptor(reflector),
-  );
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   // Swagger Documentation Init
   const options = new DocumentBuilder()

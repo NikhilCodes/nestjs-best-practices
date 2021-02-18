@@ -1,5 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { Get } from '../../shared/decorators/httpMethod.decorator';
+import { Body, Controller } from '@nestjs/common';
+import { Get, Post } from '../../shared/decorators/httpMethod.decorator';
 import { ProductsService } from './products.service';
 import { ProductDto } from './products.dto';
 import {
@@ -9,7 +9,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AddRoles } from '../../shared/decorators/roles.decorator';
-import { Product } from './schemas/product.schema';
+import ProductEntity from './entities/product.entity';
 import {
   Deprecate,
   Version,
@@ -45,12 +45,12 @@ export class ProductsController {
     description:
       'Invalid API key! Pass a valid api key through x-key in headers.',
   })
-  async getAllProducts(): Promise<Product[]> {
+  async getAllProducts(): Promise<ProductEntity[]> {
     return await this.productsService.getAll();
   }
 
   @Get('test')
-  @Version(9)
+  @Version(2)
   getTestAll() {
     return ['test', 'test1'];
   }
@@ -62,6 +62,7 @@ export class ProductsController {
   }
 
   @Post()
+  @Version(14)
   @AddRoles([ADMIN_ROLE])
   @ApiResponse({
     status: 201,
@@ -77,7 +78,7 @@ export class ProductsController {
     description:
       'Invalid API key! Pass a valid api key through x-key in headers.',
   })
-  async addProduct(@Body() productDto: ProductDto): Promise<Product> {
+  async addProduct(@Body() productDto: ProductDto): Promise<ProductEntity> {
     return await this.productsService.insert(
       productDto.title,
       productDto.description,

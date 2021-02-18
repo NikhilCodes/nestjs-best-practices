@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from './schemas/product.schema';
+import ProductEntity from './entities/product.entity';
 import { ProductService } from './products.service.interface';
-import { ProductsRepository } from '../../core/repository/products.repository';
+import { ProductsRepository } from '../../core/repositories/products.repository';
 
 @Injectable()
 export class ProductsService implements ProductService {
   constructor(private productRepository: ProductsRepository) {}
 
-  async getAll(): Promise<Product[]> {
-    return await this.productRepository.findAll();
+  getAll(): Promise<ProductEntity[]> {
+    return this.productRepository.findAll();
   }
 
-  async insert(
+  insert(
     title: string,
     description: string,
     price: number,
-  ): Promise<Product> {
-    return await this.productRepository.insertOne({
+  ): Promise<ProductEntity> {
+    return this.productRepository.insertOne({
       title,
       description,
       price,

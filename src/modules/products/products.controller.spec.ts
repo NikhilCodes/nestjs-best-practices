@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
 import { ProductsModule } from './products.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Product, ProductSchema } from './schemas/product.schema';
+import { Product, ProductEntity } from './entities/product.schema';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe('ProductsController', () => {
@@ -14,7 +14,7 @@ describe('ProductsController', () => {
       imports: [
         ProductsModule,
         MongooseModule.forFeature([
-          { name: Product.name, schema: ProductSchema },
+          { name: Product.name, schema: ProductEntity },
         ]),
         MongooseModule.forRootAsync({
           useFactory: async () => {

@@ -6,10 +6,10 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   Product,
-  ProductSchema,
-} from '../src/modules/products/schemas/product.schema';
+  ProductEntity,
+} from '../src/modules/products/entities/product.schema';
 import { ProductsService } from '../src/modules/products/products.service';
-import { ProductsRepository } from '../src/core/repository/products.repository';
+import { ProductsRepository } from '../src/core/repositories/products.repository';
 
 describe('ProductsController (e2e)', () => {
   let app: INestApplication;
@@ -20,7 +20,7 @@ describe('ProductsController (e2e)', () => {
       imports: [
         ProductsModule,
         MongooseModule.forFeature([
-          { name: Product.name, schema: ProductSchema },
+          { name: Product.name, schema: ProductEntity },
         ]),
         MongooseModule.forRootAsync({
           useFactory: async () => {
