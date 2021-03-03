@@ -8,29 +8,11 @@ export default class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
     return {
-      type: 'postgres',
-      host: this.configService.get('db.postgres.host'),
-      port: this.configService.get('db.postgres.port'),
-      username: this.configService.get('db.postgres.user'),
-      password: this.configService.get('db.postgres.password'),
-      database: this.configService.get('db.postgres.db_name'),
+      type: 'mongodb',
+      url: this.configService.get('db.mongodb.url'),
+      useNewUrlParser: true,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: true, // [NOTE : THIS SHOULD BE FALSE ON PROD]
     };
   }
-
-  // return TypeOrmModule.forRootAsync({
-  //   imports: [ConfigModule],
-  //   inject: [ConfigService],
-  //   useFactory: (configService: ConfigService) => ({
-  //     type: 'postgres',
-  //     host: configService.get('db.postgres.host'),
-  //     port: configService.get('db.postgres.port'),
-  //     username: configService.get('db.postgres.user'),
-  //     password: configService.get('db.postgres.password'),
-  //     database: configService.get('db.postgres.db_name'),
-  //     autoLoadEntities: true,
-  //     synchronize: true,
-  //   }),
-  // });
 }

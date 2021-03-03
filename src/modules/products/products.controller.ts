@@ -23,7 +23,7 @@ import {
 @ApiTags('products')
 @ApiSecurity('x-key')
 @ApiBearerAuth('authenticate')
-@Deprecate(1)
+// @Deprecate(1)
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
